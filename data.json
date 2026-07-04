@@ -1,0 +1,82 @@
+{
+  "users": [
+    {
+      "id": "U001",
+      "name": "Lubega Umar",
+      "email": "lubega@thebridgemicrosaving.com",
+      "password": "admin123",
+      "role": "admin"
+    },
+    {
+      "id": "U002",
+      "name": "Mercy",
+      "email": "mercy@thebridgemicrosaving.com",
+      "password": "treasurer123",
+      "role": "officer"
+    }
+  ],
+  "members": [
+    {
+      "id": "M101",
+      "name": "Lubega Umar",
+      "email": "lubega@thebridgemicrosaving.com",
+      "phone": "+256700000001",
+      "address": "Kampala",
+      "occupation": "Administrator",
+      "status": "active",
+      "joinDate": "2026-07-04"
+    },
+    {
+      "id": "M102",
+      "name": "Mercy",
+      "email": "mercy@thebridgemicrosaving.com",
+      "phone": "+256700000002",
+      "address": "Kampala",
+      "occupation": "Treasurer",
+      "status": "active",
+      "joinDate": "2026-07-04"
+    },
+    {
+      "id": "M103",
+      "name": "Semaganda Raymond",
+      "email": "semaganda@thebridgemicrosaving.com",
+      "phone": "+256700000003",
+      "address": "Mukono",
+      "occupation": "Member",
+      "status": "active",
+      "joinDate": "2026-07-04"
+    },
+    {
+      "id": "M104",
+      "name": "Kimera Abdul Hakim",
+      "email": "kimera@thebridgemicrosaving.com",
+      "phone": "+256700000004",
+      "address": "Jinja",
+      "occupation": "Member",
+      "status": "active",
+      "joinDate": "2026-07-04"
+    },
+    {
+      "id": "M105",
+      "name": "Aunt Betty",
+      "email": "betty@thebridgemicrosaving.com",
+      "phone": "+256700000005",
+      "address": "Masaka",
+      "occupation": "Member",
+      "status": "active",
+      "joinDate": "2026-07-04"
+    }
+  ],
+  "savings": [],
+  "loans": [],
+  "transactions": [],
+  "settings": {
+    "orgName": "The Bridge Micro Saving",
+    "orgEmail": "info@coopsociety.org",
+    "orgPhone": "+1-800-123-4567",
+    "orgAddress": "123 Main Street, City, Country",
+    "defaultRate": 10,
+    "minLoan": 500,
+    "maxLoan": 50000
+  }
+}

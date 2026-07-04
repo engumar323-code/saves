@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate, max-age=0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Cooperative Savings & Credit Society</title>
+    <script>
+        (function () {
+            const sessionData = localStorage.getItem('coopSession');
+            if (!sessionData) {
+                window.location.replace('login.html');
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css?v=20260704b">
+    <link rel="stylesheet" href="responsive.css?v=20260704b">
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="logo1.jpeg" alt="The Bridge Micro Saving Logo" style="width: 48px; height: 48px; object-fit: cover; border-radius: 8px;">
+            <div>
+                <h2>The Bridge</h2>
+                <span>Micro Saving</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" data-page="dashboard" class="nav-link active">
+                <i class="fas fa-chart-line"></i> Dashboard
+            </a>
+            <a href="#" data-page="members" class="nav-link">
+                <i class="fas fa-users"></i> Members
+            </a>
+            <a href="#" data-page="savings" class="nav-link">
+                <i class="fas fa-save"></i> Savings
+            </a>
+            <a href="#" data-page="loans" class="nav-link">
+                <i class="fas fa-hand-holding-usd"></i> Loans
+            </a>
+            <a href="#" data-page="transactions" class="nav-link">
+                <i class="fas fa-exchange-alt"></i> Transactions
+            </a>
+            <a href="#" data-page="reports" class="nav-link">
+                <i class="fas fa-file-alt"></i> Reports
+            </a>
+            <a href="#" data-page="settings" class="nav-link">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+        <!-- HEADER -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="toggle-sidebar" aria-label="Toggle sidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>The Bridge Micro Saving</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-details">
+                        <span id="userWelcome">Welcome, Admin</span>
+                        <small id="userRole" style="display: block; font-size: 12px; color: #9ca3af;">Admin</small>
+                    </div>
+                    <img src="logo1.jpeg" alt="User" class="avatar">
+                    <div class="user-menu">
+                        <button class="menu-toggle" id="userMenuToggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu" id="userDropdown">
+                            <a href="#" class="menu-item" onclick="viewProfile(event)">
+                                <i class="fas fa-user"></i> Profile
+                            </a>
+                            <a href="#" class="menu-item" onclick="changePassword(event)">
+                                <i class="fas fa-key"></i> Change Password
+                            </a>
+                            <a href="#" class="menu-item" onclick="viewSettings(event)">
+                                <i class="fas fa-cog"></i> Settings
+                            </a>
+                            <hr style="margin: 8px 0; border: none; border-top: 1px solid #e5e7eb;">
+                            <a href="#" class="menu-item logout" onclick="handleLogout(event)">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE CONTENT -->
+        <div class="page-content">
+            <!-- DASHBOARD PAGE -->
+            <section id="dashboard" class="page active">
+                <h2>Dashboard</h2>
+                <div id="roleDashboardPanel" class="chart-container" style="margin-bottom: 20px;">
+                    <h3 id="roleDashboardTitle">Dashboard Overview</h3>
+                    <div id="roleDashboardContent"></div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon members">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label" id="statLabelMembers">Total Members</p>
+                            <p class="stat-value" id="totalMembers">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon savings">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label" id="statLabelSavings">Total Savings</p>
+                            <p class="stat-value" id="totalSavings">$0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon loans">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label" id="statLabelLoans">Outstanding Loans</p>
+                            <p class="stat-value" id="totalLoans">$0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon transactions">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <p class="stat-label" id="statLabelTransactions">Recent Transactions</p>
+                            <p class="stat-value" id="recentTransactions">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid" id="dashboardCharts">
+                    <div class="chart-container" id="memberGrowthCard">
+                        <h3>Member Growth</h3>
+                        <canvas id="memberChart"></canvas>
+                    </div>
+                    <div class="chart-container" id="savingsVsLoanCard">
+                        <h3>Savings vs Loans</h3>
+                        <canvas id="savingsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- MEMBERS PAGE -->
+            <section id="members" class="page">
+                <div class="page-header">
+                    <h2>Members Management</h2>
+                    <button class="btn btn-primary" id="addMemberBtn">
+                        <i class="fas fa-plus"></i> Add Member
+                    </button>
+                </div>
+
+                <div class="search-filter">
+                    <input type="text" id="memberSearch" placeholder="Search members...">
+                    <select id="memberStatus">
+                        <option value="">All Status</option>
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Savings</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membersTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SAVINGS PAGE -->
+            <section id="savings" class="page">
+                <div class="page-header">
+                    <h2>Savings Management</h2>
+                    <button class="btn btn-primary" id="addSavingsBtn">
+                        <i class="fas fa-plus"></i> New Savings
+                    </button>
+                </div>
+
+                <div class="search-filter">
+                    <input type="text" id="savingsSearch" placeholder="Search by member...">
+                    <select id="savingsType">
+                        <option value="">All Types</option>
+                        <option value="deposit">Deposit</option>
+                        <option value="withdrawal">Withdrawal</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Member</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="savingsTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- LOANS PAGE -->
+            <section id="loans" class="page">
+                <div class="page-header">
+                    <h2>Loans Management</h2>
+                    <button class="btn btn-primary" id="approveLoanBtn">
+                        <i class="fas fa-plus"></i> New Loan Application
+                    </button>
+                </div>
+
+                <div class="search-filter">
+                    <input type="text" id="loansSearch" placeholder="Search by member...">
+                    <select id="loansStatus">
+                        <option value="">All Status</option>
+                        <option value="pending">Pending</option>
+                        <option value="approved">Approved</option>
+                        <option value="disbursed">Disbursed</option>
+                        <option value="paid">Paid</option>
+                    </select>
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Loan ID</th>
+                                <th>Member</th>
+                                <th>Amount</th>
+                                <th>Interest Rate</th>
+                                <th>Tenor (Months)</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="loansTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- TRANSACTIONS PAGE -->
+            <section id="transactions" class="page">
+                <div class="page-header">
+                    <h2>Transaction History</h2>
+                    <button class="btn btn-primary" id="exportTransactionsBtn">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                </div>
+
+                <div class="search-filter">
+                    <input type="text" id="transSearch" placeholder="Search transactions...">
+                    <select id="transType">
+                        <option value="">All Types</option>
+                        <option value="deposit">Deposit</option>
+                        <option value="withdrawal">Withdrawal</option>
+                        <option value="loan">Loan</option>
+                        <option value="payment">Payment</option>
+                    </select>
+                    <input type="date" id="transDate">
+                </div>
+
+                <div class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Trans ID</th>
+                                <th>Date</th>
+                                <th>Member</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Reference</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- REPORTS PAGE -->
+            <section id="reports" class="page">
+                <h2>Reports</h2>
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <h3>Monthly Report</h3>
+                        <p>View detailed monthly financial reports</p>
+                        <button class="btn btn-secondary" id="monthlyReportBtn">
+                            <i class="fas fa-file-pdf"></i> Generate
+                        </button>
+                    </div>
+                    <div class="report-card">
+                        <h3>Member Report</h3>
+                        <p>Individual member account statements</p>
+                        <button class="btn btn-secondary" id="memberReportBtn">
+                            <i class="fas fa-file-excel"></i> Generate
+                        </button>
+                    </div>
+                    <div class="report-card">
+                        <h3>Loan Report</h3>
+                        <p>All loans and repayment status</p>
+                        <button class="btn btn-secondary" id="loanReportBtn">
+                            <i class="fas fa-file-pdf"></i> Generate
+                        </button>
+                    </div>
+                    <div class="report-card">
+                        <h3>Financial Summary</h3>
+                        <p>Complete financial overview</p>
+                        <button class="btn btn-secondary" id="financialReportBtn">
+                            <i class="fas fa-file-excel"></i> Generate
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SETTINGS PAGE -->
+            <section id="settings" class="page">
+                <h2>Settings</h2>
+                <div class="settings-container">
+                    <div class="settings-section">
+                        <h3>Organization Settings</h3>
+                        <form id="settingsForm">
+                            <div class="form-group">
+                                <label>Organization Name</label>
+                                <input type="text" id="orgName" value="Cooperative Savings & Credit Society">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="orgEmail" value="info@coopsociety.org">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="tel" id="orgPhone" value="+1-800-123-4567">
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea id="orgAddress" rows="3">123 Main Street, City, Country</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3>System Settings</h3>
+                        <form id="systemSettings">
+                            <div class="form-group">
+                                <label>Default Interest Rate (%)</label>
+                                <input type="number" id="defaultRate" value="10" min="0" step="0.1">
+                            </div>
+                            <div class="form-group">
+                                <label>Minimum Loan Amount ($)</label>
+                                <input type="number" id="minLoan" value="500" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Maximum Loan Amount ($)</label>
+                                <input type="number" id="maxLoan" value="50000" min="0">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- MODALS -->
+    <!-- Add/Edit Member Modal -->
+    <div id="memberModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Member</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="memberForm" class="modal-body">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="memberName" required>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="memberEmail" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone *</label>
+                    <input type="tel" id="memberPhone" required>
+                </div>
+                <div class="form-group">
+                    <label>Address</label>
+                    <textarea id="memberAddress" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Occupation</label>
+                    <input type="text" id="memberOccupation">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelMemberBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Member</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Savings Modal -->
+    <div id="savingsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Record Savings</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="savingsForm" class="modal-body">
+                <div class="form-group">
+                    <label>Member *</label>
+                    <select id="savingsMember" required>
+                        <option value="">Select Member</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Type *</label>
+                    <select id="savingsType2" required>
+                        <option value="deposit">Deposit</option>
+                        <option value="withdrawal">Withdrawal</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount *</label>
+                    <input type="number" id="savingsAmount" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="date" id="savingsDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea id="savingsDescription" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelSavingsBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loan Modal -->
+    <div id="loanModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Loan Application</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <form id="loanForm" class="modal-body">
+                <div class="form-group">
+                    <label>Member *</label>
+                    <select id="loanMember" required>
+                        <option value="">Select Member</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Loan Amount *</label>
+                    <input type="number" id="loanAmount" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label>Interest Rate (%) *</label>
+                    <input type="number" id="loanRate" required min="0" step="0.1" value="10">
+                </div>
+                <div class="form-group">
+                    <label>Tenor (Months) *</label>
+                    <input type="number" id="loanTenor" required min="1" max="60">
+                </div>
+                <div class="form-group">
+                    <label>Purpose</label>
+                    <textarea id="loanPurpose" rows="3"></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancelLoanBtn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Submit Application</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    <script src="app.js?v=20260704b"></script>
+</body>
+</html>
